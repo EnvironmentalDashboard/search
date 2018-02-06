@@ -5,19 +5,23 @@ import java.sql.*;
 import java.util.*;
 import java.nio.file.Paths;
 
-import org.apache.lucene.analysis.Analyzer;
+// import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
-import org.apache.lucene.document.LongPoint;
-import org.apache.lucene.document.Document;
-import org.apache.lucene.document.Field;
-import org.apache.lucene.document.StringField;
-import org.apache.lucene.document.TextField;
-import org.apache.lucene.index.IndexWriter;
-import org.apache.lucene.index.IndexWriterConfig.OpenMode;
-import org.apache.lucene.index.IndexWriterConfig;
-import org.apache.lucene.index.Term;
-import org.apache.lucene.store.Directory;
-import org.apache.lucene.store.FSDirectory;
+// import org.apache.lucene.document.LongPoint;
+// import org.apache.lucene.document.Document;
+// import org.apache.lucene.document.Field;
+// import org.apache.lucene.document.StringField;
+// import org.apache.lucene.document.TextField;
+// import org.apache.lucene.index.IndexWriter;
+// import org.apache.lucene.index.IndexWriterConfig.OpenMode;
+// import org.apache.lucene.index.IndexWriterConfig;
+// import org.apache.lucene.index.Term;
+// import org.apache.lucene.store.Directory;
+// import org.apache.lucene.store.FSDirectory;
+import org.apache.lucene.analysis.*;
+import org.apache.lucene.document.*;
+import org.apache.lucene.index.*;
+import org.apache.lucene.store.*;
 
 
 public class IndexFiles {
@@ -32,12 +36,15 @@ public class IndexFiles {
 			try (Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASS)) {
 				Statement stmt = conn.createStatement();
 				try {
-					ResultSet rs = stmt.executeQuery("SELECT pid, value FROM cv_image_meta WHERE `key` = 'Message Text'");
+					ResultSet rs = stmt.executeQuery("SELECT pid, value FROM cv_image_meta WHERE `key` = 'Message Text' AND value != ''");
 					while (rs.next()) {
 						Document document = new Document();
-						document.add(new StringField("pid", rs.getString("pid"), Field.Store.YES));
-						document.add(new TextField("description", rs.getString("value"), Field.Store.NO));
-						writer.updateDocument(new Term("pid", rs.getString("pid")), document);
+						// document.add(new StringField("pid", rs.getString("pid"), Field.Store.YES));
+						// document.add(new TextField("description", rs.getString("value"), Field.Store.NO));
+						// writer.updateDocument(new Term("pid", rs.getString("pid")), document);
+						document.add(new StoredField("pid", rs.getString("pid")));
+						document.add(new TextField("description", rs.getString("value"), Field.Store.YES));
+						writer.addDocument(document);
 					}
 				} finally {
 					stmt.close();
