@@ -1,37 +1,25 @@
 package search;
 
-import static search.Database.*;
+import static search.Database.*; // database constants
 import java.sql.*;
 import java.util.*;
 import java.nio.file.Paths;
-
-// import org.apache.lucene.analysis.Analyzer;
+// lucene imports
+import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
-// import org.apache.lucene.document.LongPoint;
-// import org.apache.lucene.document.Document;
-// import org.apache.lucene.document.Field;
-// import org.apache.lucene.document.StringField;
-// import org.apache.lucene.document.TextField;
-// import org.apache.lucene.index.IndexWriter;
-// import org.apache.lucene.index.IndexWriterConfig.OpenMode;
-// import org.apache.lucene.index.IndexWriterConfig;
-// import org.apache.lucene.index.Term;
-// import org.apache.lucene.store.Directory;
-// import org.apache.lucene.store.FSDirectory;
-import org.apache.lucene.analysis.*;
 import org.apache.lucene.document.*;
 import org.apache.lucene.index.*;
 import org.apache.lucene.store.*;
 
 
-public class IndexFiles {
-	private IndexFiles() {}
+public class IndexDatabase {
+	private IndexDatabase() {}
 
 	public static void main(String[] args) {
 		Analyzer analyzer = new StandardAnalyzer();
 		IndexWriterConfig iwc = new IndexWriterConfig(analyzer);
 		try {
-			Directory dir = FSDirectory.open(Paths.get("indices/"));
+			Directory dir = FSDirectory.open(Paths.get("index/"));
 			IndexWriter writer = new IndexWriter(dir, iwc);
 			try (Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASS)) {
 				Statement stmt = conn.createStatement();
