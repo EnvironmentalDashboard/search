@@ -18,18 +18,18 @@ public class SearchDatabase {
 
 	public static void main(String[] args) throws IOException {
 		IndexReader reader = DirectoryReader.open(FSDirectory.open(Paths.get("index/")));
-    IndexSearcher searcher = new IndexSearcher(reader);
-    Analyzer analyzer = new StandardAnalyzer();
-    QueryParser parser = new QueryParser("description", analyzer);
-    try {
-    	Query query = parser.parse("oberlin");
-    	TopDocs results = searcher.search(query, 5);
-	    ScoreDoc[] hits = results.scoreDocs;
-	    for (int i = 0; i < 5; i++) {
-	    	System.out.println(hits[i]);
-	    }
-    } catch (Exception e) {
-    	//
-    }
+		IndexSearcher searcher = new IndexSearcher(reader);
+		Analyzer analyzer = new StandardAnalyzer();
+		QueryParser parser = new QueryParser("description", analyzer);
+		try {
+			Query query = parser.parse("Tappan Square");
+			TopDocs results = searcher.search(query, 5);
+			ScoreDoc[] hits = results.scoreDocs;
+			for (int i = 0; i < 5; i++) {
+				System.out.println(hits[i]);
+			}
+		} catch (Exception e) {
+			//
+		}
 	}
 }

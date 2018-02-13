@@ -27,11 +27,8 @@ public class IndexDatabase {
 					ResultSet rs = stmt.executeQuery("SELECT pid, value FROM cv_image_meta WHERE `key` = 'Message Text' AND value != ''");
 					while (rs.next()) {
 						Document document = new Document();
-						// document.add(new StringField("pid", rs.getString("pid"), Field.Store.YES));
-						// document.add(new TextField("description", rs.getString("value"), Field.Store.NO));
-						// writer.updateDocument(new Term("pid", rs.getString("pid")), document);
 						document.add(new StoredField("pid", rs.getString("pid")));
-						document.add(new TextField("description", rs.getString("value"), Field.Store.YES));
+						document.add(new TextField("description", rs.getString("value"), Field.Store.NO)); // Field.Store.NO b/c we dont need to return the description
 						writer.addDocument(document);
 					}
 				} finally {
