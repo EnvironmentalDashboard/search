@@ -13,8 +13,8 @@ import org.apache.lucene.search.*;
 import org.apache.lucene.store.*;
 
 
-public class SearchDatabase {
-	private SearchDatabase() {}
+public class SearchCVImages {
+	private SearchCVImages() {}
 
 	public static void main(String[] args) throws IOException {
 		IndexReader reader = DirectoryReader.open(FSDirectory.open(Paths.get("index/")));

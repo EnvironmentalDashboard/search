@@ -12,8 +12,8 @@ import org.apache.lucene.index.*;
 import org.apache.lucene.store.*;
 
 
-public class IndexDatabase {
-	private IndexDatabase() {}
+public class IndexCVImages {
+	private IndexCVImages() {}
 
 	public static void main(String[] args) {
 		Analyzer analyzer = new StandardAnalyzer();
