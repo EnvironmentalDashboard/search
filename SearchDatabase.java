@@ -22,12 +22,18 @@ public class SearchDatabase {
 		Analyzer analyzer = new StandardAnalyzer();
 		QueryParser parser = new QueryParser("description", analyzer);
 		try {
-			Query query = parser.parse("Tappan Square");
-			TopDocs results = searcher.search(query, 5);
+			Query query = parser.parse(args.length > 0 ? args[0] : "");
+			TopDocs results = searcher.search(query, args.length > 1 ? Integer.parseInt(args[1]) : 20);
 			ScoreDoc[] hits = results.scoreDocs;
-			for (int i = 0; i < 5; i++) {
-				System.out.println(hits[i]);
+			for (int i = 0; i < hits.length; i++) {
+				if (i != 0) {
+					System.out.print(",");
+				}
+				int doc_id = hits[i].doc;
+				Document d = searcher.doc(doc_id);
+				System.out.print(d.get("pid"));
 			}
+			reader.close();
 		} catch (Exception e) {
 			//
 		}
