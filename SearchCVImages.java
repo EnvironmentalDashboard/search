@@ -23,7 +23,7 @@ public class SearchCVImages {
 		QueryParser parser = new QueryParser("description", analyzer);
 		try {
 			Query query = parser.parse(args.length > 0 ? args[0] : "");
-			TopDocs results = searcher.search(query, args.length > 1 ? Integer.parseInt(args[1]) : 20);
+			TopDocs results = searcher.search(query, args.length > 1 ? Integer.parseInt(args[1]) : 10000);
 			ScoreDoc[] hits = results.scoreDocs;
 			for (int i = 0; i < hits.length; i++) {
 				if (i != 0) {

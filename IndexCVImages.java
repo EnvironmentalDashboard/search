@@ -24,12 +24,15 @@ public class IndexCVImages {
 			try (Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASS)) {
 				Statement stmt = conn.createStatement();
 				try {
-					ResultSet rs = stmt.executeQuery("SELECT pid, value FROM cv_image_meta WHERE `key` = 'Message Text' AND value != ''");
+					ResultSet rs = stmt.executeQuery("SELECT pid, value FROM cv_image_meta WHERE `key` = 'Message Text' AND value != '' ORDER BY pid");
 					while (rs.next()) {
 						Document document = new Document();
-						document.add(new StoredField("pid", rs.getString("pid")));
+						String pid = rs.getString("pid");
+						document.add(new StoredField("pid", pid));
 						document.add(new TextField("description", rs.getString("value"), Field.Store.NO)); // Field.Store.NO b/c we dont need to return the description
 						writer.addDocument(document);
+						System.out.print("Indexing image ");
+						System.out.println(pid);
 					}
 				} finally {
 					stmt.close();
